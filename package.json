@@ -19,7 +19,6 @@
     "typescript": "^5.7.2"
   },
   "dependencies": {
-    "turndown": "^7.2.0",
-    "turndown-plugin-gfm": "^1.0.2"
+    "turndown": "^7.2.0"
   }
 }
