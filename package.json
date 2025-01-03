@@ -1,0 +1,25 @@
+{
+  "name": "fixmd",
+  "version": "1.0.0",
+  "description": "fixmd",
+  "private": true,
+  "repository": "private",
+  "main": "main.ts",
+  "scripts": {
+    "watch": "tsc --watch -p ./",
+    "go": "ts-node main.ts",
+    "build": "tsc -p ./"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "@types/turndown": "^5.0.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "turndown": "^7.2.0",
+    "turndown-plugin-gfm": "^1.0.2"
+  }
+}
