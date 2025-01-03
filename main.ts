@@ -1,26 +1,17 @@
 import * as TurndownService from 'turndown';
+const tables = require('./turndown-plugin-gfm/tables');
+
 
 function NewTurndownService() {
-    const turndownPluginGfm = require('turndown-plugin-gfm');
-    const gfm = turndownPluginGfm.gfm;
-    const tables = turndownPluginGfm.tables;
-    const strikethrough = turndownPluginGfm.strikethrough;
-
     const turndownService = new TurndownService();
-    turndownService.use(gfm);
-    turndownService.use([gfm, tables, strikethrough]);
-    turndownService.addRule('p', {
-        filter: ['p'],
-        replacement: (content) => {
-            return content + '<br>';
-        }
-    });
+    turndownService.use([tables]);
     return turndownService;
 }
 
 const turndownService = NewTurndownService();
 
-const s = `
+function Main() {
+    const s = `
 <table>
 <colgroup>
 <col style="width: 10%" />
@@ -63,9 +54,98 @@ const s = `
 </table>
 `;
 
-function Main() {
     const markdown = turndownService.turndown(s);
     console.log(markdown);
 }
 
-Main();
+
+function T2() {
+    const s = `
+
+寻路
+
+寻路到NPC、采集物、触发点，表现优化
+
+<table>
+<colgroup>
+<col style="width: 0%" />
+<col style="width: 99%" />
+</colgroup>
+<thead>
+<tr>
+<th></th>
+<th><table>
+<colgroup>
+<col style="width: 74%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>客户端寻路路径优化</th>
+<th>探春</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+
+
+
+镜头
+
+镜头跟随转向体验优化
+
+
+
+
+
+走路
+
+<table>
+<colgroup>
+<col style="width: 89%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr>
+<th><blockquote>
+<p>客户端移动表现平滑度优化</p>
+<p>服务端需要给move和战斗协议每个消息新增一个序列号字段</p>
+</blockquote></th>
+<th>探春<br />
+洪颖</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><blockquote>
+<p>走路交地表平滑优化</p>
+</blockquote></td>
+<td>探春</td>
+</tr>
+<tr>
+<td><blockquote>
+<p>自动寻路转向的时候，做平滑过渡</p>
+</blockquote></td>
+<td>洪颖</td>
+</tr>
+</tbody>
+</table>
+
+EEE
+    `;
+    //
+    const re = new RegExp(/<table>.*?<\/table>\n/, 'gims'); // 标志 gims 分别表示：全局匹配、忽略大小写、多行模式和点号匹配换行符。
+    const res = s.replace(re, (html) => {
+        const md = turndownService.turndown(html) + '\n';
+        return md;
+    });
+    console.log(res);
+}
+
+T2();
