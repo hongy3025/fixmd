@@ -38,24 +38,32 @@ class Converter {
     }
 
     public Convert() {
+        this.EmptyDir(this.outputDir);
+
         const rootDir = this.inputDir;
         WalkSync(rootDir, (filePath) => {
             const relFilePath = path.relative(rootDir, filePath).replace('\\', '/');
-            const outputFilePath = path.join(this.outputDir, relFilePath);
-            const outputDir = path.dirname(outputFilePath);
-            if (!fs.existsSync(outputDir)) {
-                fs.mkdirSync(outputDir, { recursive: true });
-            }
-            const inputFilePath = path.join(rootDir, relFilePath);
-
-            console.log(`convert ${relFilePath}`);
-
-            if (relFilePath.endsWith('.md')) {
-                this.ConvertMarkdown(inputFilePath, outputFilePath);
+            if (relFilePath.endsWith('.docx')) {
+                console.log(`skip ${relFilePath}`);
             } else {
-                fs.copyFileSync(inputFilePath, outputFilePath);
+                console.log(`convert ${relFilePath}`);
+                const outputFilePath = path.join(this.outputDir, relFilePath);
+                const outputDir = path.dirname(outputFilePath);
+                const inputFilePath = path.join(rootDir, relFilePath);
+                if (!fs.existsSync(outputDir)) {
+                    fs.mkdirSync(outputDir, { recursive: true });
+                }
+                if (relFilePath.endsWith('.md')) {
+                    this.ConvertMarkdown(inputFilePath, outputFilePath);
+                } else {
+                    fs.copyFileSync(inputFilePath, outputFilePath);
+                }
             }
         });
+    }
+
+    private EmptyDir(dir: string) {
+        fs.rmSync(dir, { recursive: true });
     }
 
     private ConvertMarkdown(srcFile: string, dstFile: string) {
@@ -71,7 +79,7 @@ class Converter {
 
 function Main() {
     const inputDir = 'D:/txcombo/github/ConvertOneNote2MarkDown/working/inputs/';
-    const outputDir = 'D:/txcombo/github/ConvertOneNote2MarkDown/working/outputs/';
+    const outputDir = 'D:/MyDoc/ijerryrat/';
     const c = new Converter(inputDir, outputDir);
     c.Convert();
 
